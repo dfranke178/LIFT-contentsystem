@@ -142,13 +142,30 @@ if __name__ == "__main__":
         # Check for topic column
         if 'TOPIC' in df.columns:
             print("\nTopic distribution:")
-            topic_counts = df['TOPIC'].value_counts()
-            for topic, count in topic_counts.items()[:5]:  # Show top 5 topics
-                print(f"  {topic}: {count} posts")
+            try:
+                # Convert to string to avoid 'zip' object error
+                df['TOPIC'] = df['TOPIC'].astype(str)
+                topic_counts = df['TOPIC'].value_counts()
+                
+                # Print each topic and count
+                for topic, count in topic_counts.items():
+                    print(f"  {topic}: {count} posts")
+            except Exception as e:
+                print(f"Error processing topic distribution: {str(e)}")
+                # Try a different approach
+                print("\nAlternative topic distribution:")
+                topics = df['TOPIC'].dropna().tolist()
+                unique_topics = set(topics)
+                for topic in unique_topics:
+                    count = topics.count(topic)
+                    print(f"  {topic}: {count} posts")
             
         # Print a small sample of the data to verify
         print("\nSample of the data (first 2 rows):")
-        print(df.head(2))
+        try:
+            print(df.head(2))
+        except:
+            print("Unable to display sample rows")
         
     except Exception as e:
         print(f"Error in main program: {str(e)}")
