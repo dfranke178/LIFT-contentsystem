@@ -1,24 +1,68 @@
 import pandas as pd
 import os
+import sys
 
-def load_linkedin_data(csv_path='data/linkedin_posts2.csv'):
+def find_csv_file(filename='linkedin_posts2.csv'):
+    """Find the CSV file by checking multiple possible locations"""
+    
+    # List of possible locations to check
+    possible_paths = [
+        # Current directory
+        filename,
+        
+        # Data subdirectory
+        os.path.join('data', filename),
+        
+        # Parent directory
+        os.path.join('..', filename),
+        
+        # Parent's data directory
+        os.path.join('..', 'data', filename),
+        
+        # Absolute path if you know it
+        os.path.expanduser(f"~/Documents/LIFT-contentsystem/data/{filename}")
+    ]
+    
+    # Print current working directory for debugging
+    print(f"Current working directory: {os.getcwd()}")
+    
+    # Check each path
+    for path in possible_paths:
+        print(f"Checking path: {path}")
+        if os.path.exists(path):
+            print(f"Found file at: {path}")
+            return path
+    
+    # If we get here, the file wasn't found
+    print(f"ERROR: Could not find {filename} in any of the checked locations")
+    print("Locations checked:")
+    for path in possible_paths:
+        print(f"  - {path}")
+    return None
+
+def load_linkedin_data():
     """
     Load LinkedIn posts data from CSV file
     
-    Args:
-        csv_path (str): Path to the CSV file
-        
     Returns:
         pandas.DataFrame: Preprocessed LinkedIn posts data
     """
+    # First, find the CSV file
+    csv_path = find_csv_file()
+    
+    if not csv_path:
+        print("Unable to find the LinkedIn posts CSV file.")
+        print("Please ensure the file exists and try again.")
+        sys.exit(1)
+    
     try:
         # Try a more robust approach to loading the CSV
+        print(f"Attempting to load CSV from: {csv_path}")
         df = pd.read_csv(csv_path, 
-                        skiprows=1,  # Skip the empty first row
-                        encoding='utf-8',
-                        engine='python',  # Use the python engine which is more flexible
-                        error_bad_lines=False,  # Skip lines with too many fields
-                        warn_bad_lines=True)    # Warn about skipped lines
+                         skiprows=1,  # Skip the empty first row
+                         encoding='utf-8',
+                         engine='python',
+                         on_bad_lines='skip')  # Skip problematic lines
         
         print(f"Successfully loaded CSV with {len(df)} rows and {len(df.columns)} columns")
         
@@ -43,7 +87,8 @@ def load_linkedin_data(csv_path='data/linkedin_posts2.csv'):
                 df = pd.read_csv(csv_path, 
                                 skiprows=header_row,
                                 encoding='utf-8', 
-                                engine='python')
+                                engine='python',
+                                on_bad_lines='skip')
             else:
                 print("Could not find header row. Using default.")
         
@@ -55,12 +100,15 @@ def load_linkedin_data(csv_path='data/linkedin_posts2.csv'):
         
         # Try a very basic approach as a last resort
         print("Attempting basic file read...")
-        with open(csv_path, 'r', encoding='utf-8') as f:
-            lines = f.readlines()
-            print(f"File has {len(lines)} lines")
-            print("First 3 lines:")
-            for i in range(min(3, len(lines))):
-                print(f"Line {i}: {lines[i][:100]}...")
+        try:
+            with open(csv_path, 'r', encoding='utf-8') as f:
+                lines = f.readlines()
+                print(f"File has {len(lines)} lines")
+                print("First 3 lines:")
+                for i in range(min(3, len(lines))):
+                    print(f"Line {i}: {lines[i][:100]}...")
+        except Exception as e2:
+            print(f"Even basic file reading failed: {str(e2)}")
         
         raise e
 
@@ -78,8 +126,8 @@ if __name__ == "__main__":
             try:
                 df['DATE'] = pd.to_datetime(df['DATE'], errors='coerce')
                 print(f"Date range: {df['DATE'].min()} to {df['DATE'].max()}")
-            except:
-                print("Could not process DATE column")
+            except Exception as e:
+                print(f"Could not process DATE column: {str(e)}")
         
         # Check for engagement metrics
         engagement_cols = ['LIKES', 'COMMENTS', 'SHARES']
@@ -88,8 +136,8 @@ if __name__ == "__main__":
                 try:
                     df[col] = pd.to_numeric(df[col], errors='coerce')
                     print(f"Average {col.lower()}: {df[col].mean():.1f}")
-                except:
-                    print(f"Could not process {col} column")
+                except Exception as e:
+                    print(f"Could not process {col} column: {str(e)}")
         
         # Check for topic column
         if 'TOPIC' in df.columns:
