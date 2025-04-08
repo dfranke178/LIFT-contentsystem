@@ -1,0 +1,61 @@
+{
+    "total_posts": 31,
+    "content_type_distribution": {
+        "": 31
+    },
+    "average_engagement": {
+        "likes": 0.0,
+        "comments": 0.0,
+        "shares": 0.0
+    },
+    "top_topics": {},
+    "success_by_content_type": {
+        "": {
+            "total": 31,
+            "high_success": 0,
+            "success_rate": 0.0
+        }
+    },
+    "top_performing_posts": [
+        {
+            "content": "...",
+            "engagement_score": 0,
+            "likes": 0,
+            "comments": 0,
+            "shares": 0,
+            "content_type": ""
+        },
+        {
+            "content": "...",
+            "engagement_score": 0,
+            "likes": 0,
+            "comments": 0,
+            "shares": 0,
+            "content_type": ""
+        },
+        {
+            "content": "...",
+            "engagement_score": 0,
+            "likes": 0,
+            "comments": 0,
+            "shares": 0,
+            "content_type": ""
+        },
+        {
+            "content": "...",
+            "engagement_score": 0,
+            "likes": 0,
+            "comments": 0,
+            "shares": 0,
+            "content_type": ""
+        },
+        {
+            "content": "...",
+            "engagement_score": 0,
+            "likes": 0,
+            "comments": 0,
+            "shares": 0,
+            "content_type": ""
+        }
+    ]
+}

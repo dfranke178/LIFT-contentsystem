@@ -1,0 +1,81 @@
+{
+  "feedback": [
+    {
+      "content_id": "article_123",
+      "timestamp": "2025-04-07T21:04:26.975462",
+      "metrics": {
+        "clarity": 0.85,
+        "engagement": 0.75,
+        "call_to_action": 0.9,
+        "content_type": "article"
+      },
+      "comments": "Well-structured article with clear points. Could use more engaging elements."
+    },
+    {
+      "content_id": "article_123",
+      "timestamp": "2025-04-07T21:07:14.868720",
+      "metrics": {
+        "clarity": 0.85,
+        "engagement": 0.65,
+        "call_to_action": 0.9,
+        "content_type": "article"
+      },
+      "comments": "Well-structured article with clear points. Could use more engaging elements."
+    },
+    {
+      "content_id": "article_124",
+      "timestamp": "2025-04-07T21:07:14.869425",
+      "metrics": {
+        "clarity": 0.75,
+        "engagement": 0.7,
+        "call_to_action": 0.85,
+        "content_type": "article"
+      },
+      "comments": "Good call to action, but needs better clarity in the middle section."
+    },
+    {
+      "content_id": "media_101",
+      "timestamp": "2025-04-07T21:07:14.869670",
+      "metrics": {
+        "clarity": 0.9,
+        "engagement": 0.95,
+        "call_to_action": 0.8,
+        "content_type": "media"
+      },
+      "comments": "Highly engaging visual content. Clear message and good engagement."
+    },
+    {
+      "content_id": "article_123",
+      "timestamp": "2025-04-07T21:12:02.443817",
+      "metrics": {
+        "clarity": 0.85,
+        "engagement": 0.65,
+        "call_to_action": 0.9,
+        "content_type": "article"
+      },
+      "comments": "Well-structured article with clear points. Could use more engaging elements."
+    },
+    {
+      "content_id": "article_124",
+      "timestamp": "2025-04-07T21:12:02.445456",
+      "metrics": {
+        "clarity": 0.75,
+        "engagement": 0.7,
+        "call_to_action": 0.85,
+        "content_type": "article"
+      },
+      "comments": "Good call to action, but needs better clarity in the middle section."
+    },
+    {
+      "content_id": "media_101",
+      "timestamp": "2025-04-07T21:12:02.445738",
+      "metrics": {
+        "clarity": 0.9,
+        "engagement": 0.95,
+        "call_to_action": 0.8,
+        "content_type": "media"
+      },
+      "comments": "Highly engaging visual content. Clear message and good engagement."
+    }
+  ]
+}

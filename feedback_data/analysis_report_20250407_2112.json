@@ -1,0 +1,15 @@
+{
+  "timestamp": "2025-04-07T21:12:02.553461",
+  "metric_trends": {
+    "clarity": 0.84,
+    "engagement": 0.76,
+    "call_to_action": 0.86
+  },
+  "recommendations": [
+    "Consider enhancing engagement for better performance",
+    "Multiple feedback entries mention engagement - consider adding more interactive elements",
+    "Pay attention to content clarity based on feedback patterns"
+  ],
+  "ml_patterns": [],
+  "clusters": {}
+}
