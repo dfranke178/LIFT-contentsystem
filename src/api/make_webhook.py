@@ -1,13 +1,25 @@
 from fastapi import FastAPI, HTTPException, Request, Depends
 from fastapi.security import APIKeyHeader
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import Dict, Optional
 import json
 from datetime import datetime
-from src.utils.feedback_loop import FeedbackLoop
 import os
+from pathlib import Path
+from src.utils.feedback_loop import FeedbackLoop
 
+# Initialize FastAPI app
 app = FastAPI(title="Make.com Webhook Handler")
+
+# Add CORS middleware
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # Security
 API_KEY_NAME = "X-API-Key"
@@ -26,9 +38,27 @@ class LinkedInPostData(BaseModel):
 
 async def verify_api_key(api_key: str = Depends(api_key_header)):
     """Verify the API key from Make.com"""
-    if api_key != os.getenv("MAKE_API_KEY"):
+    expected_key = os.getenv("MAKE_API_KEY")
+    if not expected_key:
+        # For development/testing only
+        return api_key
+    if api_key != expected_key:
         raise HTTPException(status_code=403, detail="Invalid API key")
     return api_key
+
+@app.get("/")
+async def root():
+    """Root endpoint"""
+    return {"message": "LinkedIn Content Analysis API", "status": "running"}
+
+@app.get("/health")
+async def health_check():
+    """Health check endpoint"""
+    return {
+        "status": "healthy",
+        "timestamp": datetime.now().isoformat(),
+        "environment": os.getenv("ENV", "production")
+    }
 
 @app.post("/webhook/linkedin")
 async def linkedin_webhook(
@@ -62,7 +92,5 @@ async def linkedin_webhook(
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
-@app.get("/health")
-async def health_check():
-    """Health check endpoint"""
-    return {"status": "healthy"} 
+# Create feedback directory if it doesn't exist
+os.makedirs("feedback_data", exist_ok=True) 
