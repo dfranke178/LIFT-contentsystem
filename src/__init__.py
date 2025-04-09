@@ -2,9 +2,12 @@
 LinkedIn Content Analysis System
 """
 
+# Only include imports, no execution
 from src.data_processor import DataProcessor
 from src.utils import save_json, create_timestamp
 from src.utils.feedback_loop import FeedbackLoop
+
+__version__ = "1.0.0"
 
 # Use the DataProcessor
 processor = DataProcessor()

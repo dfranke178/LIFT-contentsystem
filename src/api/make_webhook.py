@@ -3,10 +3,8 @@ from fastapi.security import APIKeyHeader
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import Dict, Optional
-import json
 from datetime import datetime
 import os
-from pathlib import Path
 
 # Initialize FastAPI app
 app = FastAPI(title="Make.com Webhook Handler")
@@ -67,9 +65,10 @@ async def linkedin_webhook(
 ):
     """Handle incoming LinkedIn post data from Make.com"""
     try:
-        # For initial testing, just log and return the data
+        # Log the received data
         print(f"Received data for post {data.post_id}")
         
+        # For initial testing, just return the received data
         return {
             "status": "success",
             "message": "Data received successfully",
@@ -86,10 +85,4 @@ async def linkedin_webhook(
             "status": "error",
             "message": "Error processing request",
             "error": str(e)
-        }
-
-# Ensure the feedback directory exists
-try:
-    os.makedirs("feedback_data", exist_ok=True)
-except Exception as e:
-    print(f"Warning: Could not create feedback directory: {str(e)}") 
+        } 
