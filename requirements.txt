@@ -5,9 +5,12 @@ pandas>=2.2.0
 schedule>=1.2.0
 numpy>=1.26.0
 requests==2.31.0
-fastapi==0.109.0
-uvicorn==0.27.0
-python-multipart==0.0.6
-pydantic==2.5.0
+fastapi>=0.109.0
+uvicorn>=0.27.0
+python-multipart>=0.0.6
+pydantic>=1.10.0,<2.0.0
 python-dotenv==1.0.0
-gunicorn>=21.2.0
+gunicorn==21.2.0
+typing-extensions>=4.8.0
+pytest>=8.0.0
+httpx>=0.26.0  # Required for TestClient

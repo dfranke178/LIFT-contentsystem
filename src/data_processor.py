@@ -1,6 +1,6 @@
 import json
 import os
-from utils import get_posts_for_training
+from src.utils import get_posts_for_training
 import logging
 
 # Configure logging
@@ -36,4 +36,9 @@ def prepare_training_data():
         raise
 
 if __name__ == "__main__":
-    prepare_training_data() 
+    prepare_training_data()
+
+class DataProcessor:
+    """Process LinkedIn post data for analysis"""
+    def __init__(self):
+        pass 

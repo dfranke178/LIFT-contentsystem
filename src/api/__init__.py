@@ -1,3 +1,3 @@
 """
-API package for the LinkedIn content analysis system.
+API package for LinkedIn content analysis system.
 """ 

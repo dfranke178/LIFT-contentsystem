@@ -1,26 +1,16 @@
-from fastapi import FastAPI, HTTPException, Request, Depends
-from fastapi.security import APIKeyHeader
-from fastapi.middleware.cors import CORSMiddleware
+from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 from typing import Dict, Optional
-from datetime import datetime
-import os
+import logging
 
-# Initialize FastAPI app
-app = FastAPI(title="Make.com Webhook Handler")
-
-# Add CORS middleware
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
 )
+logger = logging.getLogger(__name__)
 
-# Security
-API_KEY_NAME = "X-API-Key"
-api_key_header = APIKeyHeader(name=API_KEY_NAME)
+app = FastAPI()
 
 class LinkedInPostData(BaseModel):
     post_id: str
@@ -30,19 +20,8 @@ class LinkedInPostData(BaseModel):
     comments: Optional[str] = None
     timestamp: Optional[str] = None
 
-async def verify_api_key(api_key: str = Depends(api_key_header)):
-    """Verify the API key from Make.com"""
-    expected_key = os.getenv("MAKE_API_KEY")
-    if not expected_key:
-        # For development/testing only
-        return api_key
-    if api_key != expected_key:
-        raise HTTPException(status_code=403, detail="Invalid API key")
-    return api_key
-
 @app.get("/")
 async def root():
-    """Root endpoint"""
     return {
         "message": "LinkedIn Content Analysis API",
         "status": "running",
@@ -51,38 +30,23 @@ async def root():
 
 @app.get("/health")
 async def health_check():
-    """Health check endpoint"""
     return {
-        "status": "healthy",
-        "timestamp": datetime.now().isoformat(),
-        "environment": os.getenv("ENV", "production")
+        "status": "healthy"
     }
 
 @app.post("/webhook/linkedin")
-async def linkedin_webhook(
-    data: LinkedInPostData,
-    api_key: str = Depends(verify_api_key)
-):
-    """Handle incoming LinkedIn post data from Make.com"""
+async def linkedin_webhook(data: LinkedInPostData):
     try:
-        # Log the received data
-        print(f"Received data for post {data.post_id}")
-        
-        # For initial testing, just return the received data
+        logger.info(f"Received webhook data: {data}")
         return {
             "status": "success",
             "message": "Data received successfully",
             "data": {
                 "post_id": data.post_id,
                 "content_type": data.content_type,
-                "metrics": data.metrics,
-                "timestamp": datetime.now().isoformat()
+                "metrics": data.metrics
             }
         }
     except Exception as e:
-        print(f"Error processing webhook: {str(e)}")
-        return {
-            "status": "error",
-            "message": "Error processing request",
-            "error": str(e)
-        } 
+        logger.error(f"Error processing webhook: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e)) 
