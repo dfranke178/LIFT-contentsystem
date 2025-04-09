@@ -22,6 +22,7 @@ lib64/
 parts/
 sdist/
 var/
+wheels/
 *.egg-info/
 .installed.cfg
 *.egg
@@ -32,6 +33,14 @@ var/
 *.swp
 *.swo
 
-# OS
+# Logs
+*.log
+logs/
+
+# Local development
 .DS_Store
+feedback_data/
+analysis/
+
+# OS
 Thumbs.db
