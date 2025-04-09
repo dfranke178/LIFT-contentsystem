@@ -1,1 +1,1 @@
-web: uvicorn src.api.make_webhook:app --host 0.0.0.0 --port $PORT 
+web: cd src && uvicorn api.make_webhook:app --host 0.0.0.0 --port $PORT 
