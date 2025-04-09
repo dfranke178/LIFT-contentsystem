@@ -12,38 +12,11 @@ logger = logging.getLogger(__name__)
 def get_posts_for_training() -> List[Dict[str, Any]]:
     """
     Fetch and prepare posts for training the AI model from the data file.
-    
-    Returns:
-        List[Dict[str, Any]]: List of training examples in the format:
-        [
-            {
-                "content": str,  # The post content
-                "metadata": {    # Additional metadata
-                    "post_id": str,
-                    "likes": int,
-                    "comments": int,
-                    "shares": int,
-                    "date": str,
-                    "content_type": str,
-                    "industry": str,
-                    "post_length": str,
-                    "purpose": str,
-                    "tone": str,
-                    "topic": str,
-                    "cta_type": str,
-                    "hashtags": str,
-                    "engagement_rate": float,
-                    "account_size": str,
-                    "success_rating": str
-                }
-            },
-            ...
-        ]
     """
     try:
         # Get the path to the data file
-        current_dir = os.path.dirname(os.path.abspath(__file__))
-        data_file = os.path.join(os.path.dirname(current_dir), 'data')
+        current_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        data_file = os.path.join(current_dir, 'data')
         
         training_examples = []
         
@@ -86,13 +59,7 @@ def get_posts_for_training() -> List[Dict[str, Any]]:
         raise
 
 def save_json(data: Dict[str, Any], file_path: str) -> None:
-    """
-    Save data to a JSON file.
-    
-    Args:
-        data (Dict[str, Any]): Data to save
-        file_path (str): Path to save the JSON file
-    """
+    """Save data to a JSON file."""
     try:
         with open(file_path, 'w') as f:
             json.dump(data, f, indent=4)
@@ -102,15 +69,7 @@ def save_json(data: Dict[str, Any], file_path: str) -> None:
         raise
 
 def load_json(file_path: str) -> Dict[str, Any]:
-    """
-    Load data from a JSON file.
-    
-    Args:
-        file_path (str): Path to the JSON file
-        
-    Returns:
-        Dict[str, Any]: Loaded data
-    """
+    """Load data from a JSON file."""
     try:
         with open(file_path, 'r') as f:
             data = json.load(f)
@@ -121,30 +80,14 @@ def load_json(file_path: str) -> Dict[str, Any]:
         raise
 
 def create_timestamp() -> str:
-    """
-    Create a formatted timestamp.
-    
-    Returns:
-        str: Current timestamp in YYYY-MM-DD_HH-MM-SS format
-    """
+    """Create a formatted timestamp."""
     return datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
 
 def ensure_directory(directory_path: str) -> None:
-    """
-    Ensure a directory exists, create it if it doesn't.
-    
-    Args:
-        directory_path (str): Path to the directory
-    """
+    """Ensure a directory exists, create it if it doesn't."""
     try:
         os.makedirs(directory_path, exist_ok=True)
         logger.info(f"Directory ensured: {directory_path}")
     except Exception as e:
         logger.error(f"Error creating directory: {str(e)}")
-        raise
-
-if __name__ == "__main__":
-    # Example usage
-    examples = get_posts_for_training()
-    print(f"Fetched {len(examples)} training examples")
-    print(f"Sample example: {examples[0] if examples else 'No examples found'}") 
+        raise 

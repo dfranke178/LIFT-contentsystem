@@ -1,6 +1,6 @@
 import json
 import os
-from src.utils import get_posts_for_training
+from src.utils.data_utils import get_posts_for_training
 import logging
 
 # Configure logging
