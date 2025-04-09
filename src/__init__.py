@@ -1,3 +1,7 @@
+"""
+LinkedIn Content Analysis System
+"""
+
 from src.data_processor import DataProcessor
 from src.utils import save_json, create_timestamp
 from src.utils.feedback_loop import FeedbackLoop

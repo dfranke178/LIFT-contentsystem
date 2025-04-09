@@ -32,15 +32,6 @@ class LinkedInPostData(BaseModel):
     comments: Optional[str] = None
     timestamp: Optional[str] = None
 
-def get_feedback_loop():
-    """Lazy initialization of FeedbackLoop"""
-    try:
-        from src.utils.feedback_loop import FeedbackLoop
-        return FeedbackLoop()
-    except Exception as e:
-        print(f"Warning: Could not initialize FeedbackLoop: {str(e)}")
-        return None
-
 async def verify_api_key(api_key: str = Depends(api_key_header)):
     """Verify the API key from Make.com"""
     expected_key = os.getenv("MAKE_API_KEY")
@@ -76,53 +67,25 @@ async def linkedin_webhook(
 ):
     """Handle incoming LinkedIn post data from Make.com"""
     try:
-        # Initialize feedback loop
-        feedback_loop = get_feedback_loop()
-        
-        if not feedback_loop:
-            return {
-                "status": "success",
-                "message": "Data received but feedback system is not available",
-                "data": {
-                    "post_id": data.post_id,
-                    "content_type": data.content_type,
-                    "timestamp": datetime.now().isoformat()
-                }
-            }
-        
-        # Add feedback to the system
-        feedback_loop.add_feedback(
-            content_id=data.post_id,
-            metrics={
-                **data.metrics,
-                "content_type": data.content_type
-            },
-            comments=data.comments or f"Automatically collected from Make.com at {datetime.now().isoformat()}"
-        )
-        
-        # Run analysis
-        analysis = feedback_loop.analyze_feedback()
-        patterns = feedback_loop.analyze_patterns()
+        # For initial testing, just log and return the data
+        print(f"Received data for post {data.post_id}")
         
         return {
             "status": "success",
-            "message": "Data processed successfully",
-            "analysis": {
-                "feedback_analysis": analysis,
-                "ml_patterns": patterns
+            "message": "Data received successfully",
+            "data": {
+                "post_id": data.post_id,
+                "content_type": data.content_type,
+                "metrics": data.metrics,
+                "timestamp": datetime.now().isoformat()
             }
         }
     except Exception as e:
         print(f"Error processing webhook: {str(e)}")
         return {
             "status": "error",
-            "message": "Data received but processing failed",
-            "error": str(e),
-            "data": {
-                "post_id": data.post_id,
-                "content_type": data.content_type,
-                "timestamp": datetime.now().isoformat()
-            }
+            "message": "Error processing request",
+            "error": str(e)
         }
 
 # Ensure the feedback directory exists
