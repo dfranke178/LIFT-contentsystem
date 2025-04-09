@@ -1,1 +1,1 @@
-web: uvicorn src.api.make_webhook:app --host 0.0.0.0 --port $PORT --workers 4 
+web: PYTHONPATH=$PYTHONPATH:. uvicorn src.api.make_webhook:app --host 0.0.0.0 --port $PORT --workers 1 
