@@ -1,8 +1,9 @@
 import os
-from fastapi import FastAPI, HTTPException
-from pydantic import BaseModel, Field, validator
+from fastapi import FastAPI, HTTPException, Request
+from pydantic import BaseModel, Field, validator, ValidationError
 from typing import Dict, Optional, Union
 import logging
+import json
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -48,33 +49,58 @@ async def health_check():
     }
 
 @app.post("/webhook/linkedin")
-async def linkedin_webhook(data: LinkedInPostData):
+async def linkedin_webhook(request: Request):
     try:
-        # Log the received data
-        logger.info(f"Received webhook data: {data.dict()}")
+        # Log the raw request body
+        raw_body = await request.body()
+        logger.info(f"Raw request body: {raw_body.decode()}")
         
-        # Convert post_id to string if it's a number
-        post_id = str(data.post_id)
+        # Parse the JSON data
+        data = await request.json()
+        logger.info(f"Parsed JSON data: {json.dumps(data, indent=2)}")
         
-        # Convert metrics values to float
-        metrics = {k: float(v) for k, v in data.metrics.items()}
+        # Validate the data
+        try:
+            post_data = LinkedInPostData(**data)
+        except ValidationError as e:
+            logger.error(f"Validation error: {str(e)}")
+            logger.error(f"Failed data: {json.dumps(data, indent=2)}")
+            raise HTTPException(
+                status_code=422,
+                detail={
+                    "error": "Validation error",
+                    "message": str(e),
+                    "received_data": data
+                }
+            )
         
         return {
             "status": "success",
             "message": "Data received successfully",
             "data": {
-                "post_id": post_id,
-                "content_type": data.content_type,
-                "metrics": metrics
+                "post_id": str(post_data.post_id),
+                "content_type": post_data.content_type,
+                "metrics": {k: float(v) for k, v in post_data.metrics.items()}
             }
         }
+    except json.JSONDecodeError as e:
+        logger.error(f"Invalid JSON: {str(e)}")
+        raise HTTPException(
+            status_code=400,
+            detail={
+                "error": "Invalid JSON",
+                "message": str(e),
+                "raw_body": raw_body.decode() if 'raw_body' in locals() else None
+            }
+        )
     except Exception as e:
         logger.error(f"Error processing webhook: {str(e)}")
         raise HTTPException(
             status_code=400,
             detail={
                 "error": "Invalid data format",
-                "message": str(e)
+                "message": str(e),
+                "received_data": data if 'data' in locals() else None
             }
         )
 
