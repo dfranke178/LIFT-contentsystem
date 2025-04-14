@@ -15,3 +15,5 @@ typing-extensions>=4.8.0
 pytest>=8.0.0
 httpx>=0.26.0  # Required for TestClient
 nltk>=3.8.1
+spacy>=3.6.0
+textstat>=0.7.3
