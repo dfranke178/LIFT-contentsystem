@@ -1,0 +1,57 @@
+[
+  {
+    "post_id": "1",
+    "content_type": "text/image",
+    "metrics": {
+      "likes": 24,
+      "comments": 3,
+      "shares": 2
+    },
+    "content": "Leadership isn't about having all the answers—it's about asking the right questions. When was the last time you paused to question your assumptions about your business strategy? #LeadershipInsights #BusinessClarity",
+    "timestamp": "1741664490"
+  },
+  {
+    "post_id": "2",
+    "content_type": "text",
+    "metrics": {
+      "likes": 16,
+      "comments": 5,
+      "shares": 0
+    },
+    "content": "The fastest way to scale your business isn't by working harder—it's by gaining clarity on what matters most. When everyone understands the plan and their role in it, execution becomes effortless. What's one area of your business that needs more clarity right now?",
+    "timestamp": "1742664490"
+  },
+  {
+    "post_id": "3",
+    "content_type": "text/image",
+    "metrics": {
+      "likes": 11,
+      "comments": 1,
+      "shares": 1
+    },
+    "content": "For SMB owners/leaders aspiring to exceed company goals, hope isn't just a feel-good word—it's fuel. How do you ignite it? By giving your team clarity on what success looks like. A sales strategy alone won't win deals—reps need to hustle, solve customer pain, and engage more targets. But without the essentials outlined below, they're lost in the woods.\n\nNo clarity, no hope—no wins. Let's connect to see if our team at LIFT can add value to your goals.\n\nAccess to the Gallup study is in the comments below.",
+    "timestamp": "1744664490"
+  },
+  {
+    "post_id": "4",
+    "content_type": "video",
+    "metrics": {
+      "likes": 32,
+      "comments": 8,
+      "shares": 5
+    },
+    "content": "Just released! Watch our new video on \"The 5 Clarity Principles Every Business Leader Needs\". These principles have helped our clients increase revenue by an average of 27% within 6 months. Which principle resonates most with you? #BusinessGrowth #LeadershipStrategy",
+    "timestamp": "1745664490"
+  },
+  {
+    "post_id": "5",
+    "content_type": "text/document",
+    "metrics": {
+      "likes": 19,
+      "comments": 4,
+      "shares": 7
+    },
+    "content": "Excited to share our latest white paper: \"From Confusion to Clarity: How Business Leaders Can Transform Their Strategy in 90 Days\". Download the free guide and discover the LIFT framework that's helping SMB leaders achieve breakthrough results. Link in comments!",
+    "timestamp": "1746664490"
+  }
+]
