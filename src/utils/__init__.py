@@ -10,6 +10,7 @@ from src.utils.data_utils import (
     ensure_directory
 )
 from src.utils.feedback_loop import FeedbackLoop
+from src.utils.brand_knowledge import BrandKnowledge, brand_knowledge
 
 __all__ = [
     'get_posts_for_training',
@@ -17,5 +18,7 @@ __all__ = [
     'load_json',
     'create_timestamp',
     'ensure_directory',
-    'FeedbackLoop'
+    'FeedbackLoop',
+    'BrandKnowledge',
+    'brand_knowledge'
 ]

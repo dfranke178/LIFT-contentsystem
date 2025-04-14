@@ -1,6 +1,7 @@
 from typing import Dict, List, Optional
 import logging
 from abc import ABC, abstractmethod
+from src.utils.brand_knowledge import brand_knowledge
 
 class BaseAgent(ABC):
     """Base class for all AI agents in the LIFT system."""
@@ -55,11 +56,20 @@ class BaseAgent(ABC):
         Returns:
             str: Formatted prompt
         """
+        # First enrich context with brand knowledge
+        enriched_context = context or {}
+        if brand_knowledge and brand_knowledge.get_full_brief():
+            enriched_context = brand_knowledge.enrich_context(enriched_context)
+            
+            # Add brand guidance to the prompt
+            if not "BRAND GUIDANCE:" in base_prompt:
+                base_prompt = brand_knowledge.format_brand_prompt(base_prompt)
+            
         if context is None:
             return base_prompt
             
         try:
-            return base_prompt.format(**context)
+            return base_prompt.format(**enriched_context)
         except KeyError as e:
             self.logger.error(f"Missing context key: {e}")
             return base_prompt 
