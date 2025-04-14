@@ -5,6 +5,7 @@ from typing import Dict, Optional, Union
 import logging
 import json
 import re
+import base64
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -17,6 +18,7 @@ class LinkedInPostData(BaseModel):
     content_type: str = Field(..., description="Type of content (article, media, text)")
     metrics: Dict[str, Union[float, int]] = Field(..., description="Engagement metrics")
     content: Optional[str] = Field(None, description="The actual content of the post")
+    content_base64: Optional[str] = Field(None, description="Base64 encoded content of the post")
     comments: Optional[str] = Field(None, description="Comments on the post")
     timestamp: Optional[str] = Field(None, description="When the post was created")
 
@@ -97,6 +99,35 @@ async def linkedin_webhook(request: Request):
 
         logger.info(f"Parsed JSON data: {json.dumps(data, indent=2)}")
         
+        # Handle base64 encoded content if present
+        if 'content_base64' in data and data['content_base64']:
+            try:
+                # Decode the base64 content
+                decoded_content = base64.b64decode(data['content_base64']).decode('utf-8')
+                logger.info("Successfully decoded base64 content")
+                # Replace content with the decoded value
+                data['content'] = decoded_content
+            except Exception as e:
+                logger.error(f"Error decoding base64 content: {str(e)}")
+                # If we can't decode, leave the existing content as is
+        
+        # If content is missing or was sanitized, but we have the raw text,
+        # try to extract the content directly
+        if ('content' not in data or 
+            data.get('content') == "Content contains special characters (sanitized)" or
+            not data.get('content')):
+            try:
+                # Try to extract content from the raw request using regex
+                content_match = re.search(r'"content":\s*"(.*?)(?:",|\"\})', raw_text, re.DOTALL)
+                if content_match:
+                    extracted_content = content_match.group(1)
+                    # Replace escaped quotes and newlines
+                    extracted_content = extracted_content.replace('\\"', '"').replace('\\n', '\n')
+                    data['content'] = extracted_content
+                    logger.info("Successfully extracted content from raw request")
+            except Exception as e:
+                logger.error(f"Error extracting content from raw request: {str(e)}")
+        
         # Validate the data
         try:
             post_data = LinkedInPostData(**data)
@@ -112,15 +143,23 @@ async def linkedin_webhook(request: Request):
                 }
             )
         
-        return {
+        # Prepare the response with the full content
+        response_data = {
             "status": "success",
             "message": "Data received successfully",
             "data": {
                 "post_id": str(post_data.post_id),
                 "content_type": post_data.content_type,
-                "metrics": {k: float(v) for k, v in post_data.metrics.items()}
+                "metrics": {k: float(v) for k, v in post_data.metrics.items()},
+                "content": post_data.content
             }
         }
+        
+        # Log the size of content being processed
+        if post_data.content:
+            logger.info(f"Content length: {len(post_data.content)} characters")
+        
+        return response_data
     except Exception as e:
         logger.error(f"Error processing webhook: {str(e)}")
         raise HTTPException(
