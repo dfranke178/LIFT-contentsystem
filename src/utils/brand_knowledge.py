@@ -128,6 +128,10 @@ class BrandKnowledge:
         Returns:
             str: Prompt enriched with brand information
         """
+        # Check if brand brief exists
+        if not self.brand_brief:
+            return base_prompt
+            
         # Extract core brand information
         company_name = self.brand_brief.get('company_info', {}).get('name', '')
         tagline = self.brand_brief.get('company_info', {}).get('tagline', '')
@@ -164,7 +168,7 @@ class BrandKnowledge:
     
     def _format_list(self, items: list) -> str:
         """Format a list of items as a bulleted string."""
-        if not items:
+        if not items or items is None:
             return "None specified"
         return "\n".join([f"- {item}" for item in items])
 

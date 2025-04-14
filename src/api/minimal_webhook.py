@@ -6,6 +6,10 @@ import logging
 import json
 import re
 import base64
+from dotenv import load_dotenv
+
+# Load environment variables
+load_dotenv()
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)

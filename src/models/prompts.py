@@ -6,6 +6,22 @@ class PromptTemplates:
     @staticmethod
     def get_text_post_template(context: Optional[Dict] = None) -> str:
         """Template for generating text-only LinkedIn posts."""
+        # Provide default values for missing context
+        safe_context = context or {}
+        defaults = {
+            "industry": "Leadership Development",
+            "target_audience": "Business professionals",
+            "purpose": "Thought leadership",
+            "tone": "Professional",
+            "topic": "Leadership",
+            "cta_type": "Ask a question"
+        }
+        
+        # Merge defaults with provided context
+        for key, value in defaults.items():
+            if key not in safe_context or not safe_context[key]:
+                safe_context[key] = value
+        
         base_template = """
         You are an expert LinkedIn content creator. Create a professional LinkedIn post with the following specifications:
         
@@ -25,11 +41,32 @@ class PromptTemplates:
         
         Generate a post that follows these guidelines.
         """
-        return base_template.format(**(context or {}))
+        
+        try:
+            return base_template.format(**safe_context)
+        except KeyError as e:
+            return f"Error in template formatting: Missing key {e}"
     
     @staticmethod
     def get_media_post_template(context: Optional[Dict] = None) -> str:
         """Template for generating LinkedIn posts with media."""
+        # Provide default values for missing context
+        safe_context = context or {}
+        defaults = {
+            "industry": "Leadership Development",
+            "media_type": "Image",
+            "target_audience": "Business professionals",
+            "purpose": "Thought leadership",
+            "tone": "Professional",
+            "topic": "Leadership",
+            "cta_type": "Ask a question"
+        }
+        
+        # Merge defaults with provided context
+        for key, value in defaults.items():
+            if key not in safe_context or not safe_context[key]:
+                safe_context[key] = value
+        
         base_template = """
         You are an expert LinkedIn content creator specializing in visual content. Create a LinkedIn post with media using these specifications:
         
@@ -50,11 +87,31 @@ class PromptTemplates:
         
         Generate a post that effectively combines text and visual elements.
         """
-        return base_template.format(**(context or {}))
+        
+        try:
+            return base_template.format(**safe_context)
+        except KeyError as e:
+            return f"Error in template formatting: Missing key {e}"
     
     @staticmethod
     def get_article_template(context: Optional[Dict] = None) -> str:
         """Template for generating LinkedIn articles."""
+        # Provide default values for missing context
+        safe_context = context or {}
+        defaults = {
+            "industry": "Leadership Development",
+            "target_audience": "Business professionals",
+            "purpose": "Thought leadership",
+            "tone": "Professional",
+            "topic": "Leadership",
+            "key_points": ["Point 1", "Point 2", "Point 3"]
+        }
+        
+        # Merge defaults with provided context
+        for key, value in defaults.items():
+            if key not in safe_context or not safe_context[key]:
+                safe_context[key] = value
+        
         base_template = """
         You are an expert LinkedIn thought leader. Create a comprehensive LinkedIn article with these specifications:
         
@@ -75,11 +132,29 @@ class PromptTemplates:
         
         Generate a thought-provoking article that establishes authority in the field.
         """
-        return base_template.format(**(context or {}))
+        
+        try:
+            return base_template.format(**safe_context)
+        except KeyError as e:
+            return f"Error in template formatting: Missing key {e}"
     
     @staticmethod
     def get_optimization_template(context: Optional[Dict] = None) -> str:
         """Template for optimizing existing content."""
+        # Provide default values for missing context
+        safe_context = context or {}
+        defaults = {
+            "content": "This is a sample content that needs optimization.",
+            "target_metrics": ["engagement", "readability"],
+            "industry": "Leadership Development",
+            "target_audience": "Business professionals"
+        }
+        
+        # Merge defaults with provided context
+        for key, value in defaults.items():
+            if key not in safe_context or not safe_context[key]:
+                safe_context[key] = value
+        
         base_template = """
         You are a LinkedIn content optimization expert. Review and enhance this content:
         
@@ -97,11 +172,29 @@ class PromptTemplates:
         
         Provide the optimized version of the content.
         """
-        return base_template.format(**(context or {}))
+        
+        try:
+            return base_template.format(**safe_context)
+        except KeyError as e:
+            return f"Error in template formatting: Missing key {e}"
     
     @staticmethod
     def get_analysis_template(context: Optional[Dict] = None) -> str:
         """Template for analyzing content performance."""
+        # Provide default values for missing context
+        safe_context = context or {}
+        defaults = {
+            "content": "This is a sample content that needs analysis.",
+            "content_type": "text",
+            "industry": "Leadership Development",
+            "target_audience": "Business professionals"
+        }
+        
+        # Merge defaults with provided context
+        for key, value in defaults.items():
+            if key not in safe_context or not safe_context[key]:
+                safe_context[key] = value
+        
         base_template = """
         Analyze this LinkedIn content for performance potential:
         
@@ -120,4 +213,8 @@ class PromptTemplates:
         
         Provide a detailed analysis with specific recommendations.
         """
-        return base_template.format(**(context or {})) 
+        
+        try:
+            return base_template.format(**safe_context)
+        except KeyError as e:
+            return f"Error in template formatting: Missing key {e}" 

@@ -58,12 +58,18 @@ class BaseAgent(ABC):
         """
         # First enrich context with brand knowledge
         enriched_context = context or {}
-        if brand_knowledge and brand_knowledge.get_full_brief():
-            enriched_context = brand_knowledge.enrich_context(enriched_context)
-            
-            # Add brand guidance to the prompt
-            if not "BRAND GUIDANCE:" in base_prompt:
-                base_prompt = brand_knowledge.format_brand_prompt(base_prompt)
+        
+        # Check if brand_knowledge is available and properly initialized
+        if 'brand_knowledge' in globals() and brand_knowledge is not None and hasattr(brand_knowledge, 'get_full_brief'):
+            try:
+                if brand_knowledge.get_full_brief():
+                    enriched_context = brand_knowledge.enrich_context(enriched_context)
+                    
+                    # Add brand guidance to the prompt
+                    if not "BRAND GUIDANCE:" in base_prompt:
+                        base_prompt = brand_knowledge.format_brand_prompt(base_prompt)
+            except Exception as e:
+                self.logger.error(f"Error applying brand knowledge: {str(e)}")
             
         if context is None:
             return base_prompt

@@ -1,150 +1,100 @@
-# LIFT Content System
+# LIFT Leadership AI Content System
 
-A system for analyzing and preparing LinkedIn post data for AI model training.
+A comprehensive AI system for generating LinkedIn content that incorporates brand knowledge and follows LIFT Leadership Group's voice and messaging.
 
-## Project Structure
+## Setup
 
-```
-LIFT-contentsystem/
-├── src/
-│   ├── data_processor.py    # Prepares training data
-│   ├── analyze_data.py      # Analyzes post performance
-│   ├── dashboard.py         # Interactive visualization dashboard
-│   └── utils.py             # Utility functions
-├── data                     # Raw LinkedIn post data
-├── models/                  # Generated training data
-├── analysis/                # Analysis results
-└── requirements.txt         # Project dependencies
-```
+1. **Install dependencies**
 
-## Quick Start
-
-### 1. Install Dependencies
 ```bash
-pip install -r requirements.txt
+pip install anthropic python-dotenv
 ```
 
-### 2. Prepare Training Data
+2. **Environment Variables**
+
+Your Anthropic API key is already set up in the `.env` file in the project root.
+
+3. **Brand Knowledge**
+
+The system loads brand information from `brand_knowledge/brand_brief.json`. This file contains comprehensive information about the LIFT Leadership Group's brand, voice, audience, and messaging.
+
+## Usage
+
+### Quick Start
+
+Run the example script to generate content using the AI agents:
+
 ```bash
-python src/data_processor.py
+python brand_knowledge_example.py
 ```
 
-### 3. Run Analysis
-```bash
-python src/analyze_data.py
+### Interacting with Agents
+
+Create a custom script to interact with different content agents:
+
+```python
+from src.models.model_interface import ModelInterface
+from dotenv import load_dotenv
+
+# Load environment variables
+load_dotenv()
+
+# Initialize the model interface
+model = ModelInterface()
+
+# Generate text-only content
+text_post = model.generate_content("text", {
+    "topic": "leadership clarity",
+    "purpose": "thought leadership",
+    "cta_type": "Ask a question"
+})
+print(text_post)
+
+# Generate media post content
+media_post = model.generate_content("media", {
+    "topic": "sales acceleration",
+    "media_type": "infographic",
+    "purpose": "educational"
+})
+print(media_post)
+
+# Generate article content
+article = model.generate_content("article", {
+    "topic": "The LIFT Framework",
+    "key_points": ["Listen & Learn", "Initiate & Inspire", "Focus & Framework", "Transform the Team"]
+})
+print(article)
 ```
 
-### 4. Launch Dashboard
-```bash
-streamlit run src/dashboard.py
-```
+## AI Agents
 
-## Scripts and Their Functions
+The system includes three specialized AI agents:
 
-### 1. Data Processing (`src/data_processor.py`)
+1. **TextContentAgent**: Generates text-only LinkedIn posts
+2. **MediaContentAgent**: Creates posts designed to accompany visual content
+3. **ArticleContentAgent**: Generates long-form thought leadership content
 
-**Purpose**: Prepares LinkedIn post data for model training.
+All agents leverage Claude 3 Opus by default, with temperature 0.7 for balanced creativity.
 
-**Function**:
-- Reads raw post data from `data` file
-- Processes and structures the data
-- Saves formatted training data to `models/training_data.json`
+## Brand Knowledge Integration
 
-**Usage**:
-```bash
-python src/data_processor.py
-```
+The AI system automatically enriches all content with brand knowledge through:
 
-### 2. Data Analysis (`src/analyze_data.py`)
+1. Context enrichment with brand voice, messaging, and audience information
+2. Addition of brand guidance to prompts
 
-**Purpose**: Analyzes LinkedIn post performance and generates insights.
+## Troubleshooting
 
-**Functions**:
-- Analyzes post engagement metrics
-- Identifies top-performing content
-- Calculates success rates by content type
-- Generates performance reports
+If you encounter errors:
 
-**Output Files**:
-- `analysis/analysis_results.json`: Complete analysis data
-- `analysis/top_posts.csv`: Top 5 performing posts
-- `analysis/success_rates.csv`: Success rates by content type
+1. Ensure the `.env` file exists with your ANTHROPIC_API_KEY
+2. Verify the brand_knowledge/brand_brief.json file exists and is valid JSON
+3. Try running with Python 3.9-3.11 for best compatibility
 
-**Usage**:
-```bash
-python src/analyze_data.py
-```
+## Development
 
-### 3. Dashboard (`src/dashboard.py`)
+To extend the system:
 
-**Purpose**: Interactive visualization of LinkedIn post analysis.
-
-**Features**:
-- Overview metrics (total posts, average engagement)
-- Content type distribution (pie chart)
-- Success rates by content type (bar chart)
-- Top performing posts with detailed metrics
-- Topic analysis (top 10 topics)
-
-**Usage**:
-```bash
-streamlit run src/dashboard.py
-```
-
-### 4. Utilities (`src/utils.py`)
-
-**Purpose**: Provides helper functions for data processing and analysis.
-
-**Key Functions**:
-- `get_posts_for_training()`: Fetches and structures post data
-- `save_json()`: Saves data to JSON files
-- `load_json()`: Loads data from JSON files
-- `create_timestamp()`: Generates formatted timestamps
-- `ensure_directory()`: Creates directories if they don't exist
-
-## Data Structure
-
-### Training Data Format
-```json
-{
-    "content": "Post content text",
-    "metadata": {
-        "post_id": "LinkedIn post URL",
-        "likes": 100,
-        "comments": 20,
-        "shares": 5,
-        "date": "2025-03-28",
-        "content_type": "text-only",
-        "industry": "education/learning",
-        "post_length": "long",
-        "purpose": "informational",
-        "tone": "professional",
-        "topic": "educational content",
-        "cta_type": "none",
-        "hashtags": "#example",
-        "engagement_rate": 5.1,
-        "account_size": "large",
-        "success_rating": "high"
-    }
-}
-```
-
-## Analysis Metrics
-
-The analysis script calculates:
-- Total number of posts
-- Content type distribution
-- Average engagement metrics (likes, comments, shares)
-- Most common topics
-- Success rates by content type
-- Top performing posts (based on engagement score)
-
-## Output Files
-
-### Analysis Results
-- `analysis_results.json`: Complete analysis data
-- `top_posts.csv`: Top 5 performing posts with metrics
-- `success_rates.csv`: Success rates by content type
-
-### Training Data
-- `training_data.json`: Formatted data ready for model training
+1. **Add new agent types**: Create new classes that inherit from BaseAgent
+2. **Customize prompts**: Modify templates in src/models/prompts.py
+3. **Update brand information**: Edit brand_knowledge/brand_brief.json

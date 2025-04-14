@@ -2,8 +2,7 @@ from typing import Dict, Optional, Union
 from .base_agent import BaseAgent
 from .content_agents import TextContentAgent, MediaContentAgent, ArticleContentAgent
 from .prompts import PromptTemplates
-from utils.evaluation import ContentEvaluator
-from utils.prompt_tuning import PromptTuner
+import logging
 
 class ModelInterface:
     """Main interface for coordinating between different agents and prompts."""
@@ -15,8 +14,7 @@ class ModelInterface:
             "article": ArticleContentAgent()
         }
         self.prompts = PromptTemplates()
-        self.evaluator = ContentEvaluator()
-        self.tuner = PromptTuner()
+        self.logger = logging.getLogger(__name__)
     
     def get_agent(self, content_type: str) -> BaseAgent:
         """Get the appropriate agent for the content type."""
@@ -35,7 +33,17 @@ class ModelInterface:
         Returns:
             str: Generated content
         """
+        # Validate content type
         agent = self.get_agent(content_type)
+        
+        # Validate required context fields
+        required_fields = self._get_required_fields(content_type)
+        missing_fields = [field for field in required_fields if field not in context]
+        
+        if missing_fields:
+            error_message = f"Missing required context fields: {', '.join(missing_fields)}"
+            self.logger.error(error_message)
+            return f"Error: {error_message}"
         
         # Get the appropriate prompt template
         if content_type == "text":
@@ -45,18 +53,8 @@ class ModelInterface:
         else:  # article
             base_prompt = self.prompts.get_article_template(context)
         
-        # Adapt the prompt using few-shot learning
-        adapted_prompt = self.tuner.adapt_prompt(base_prompt, content_type)
-        
         # Generate content
-        content = agent.generate_content(adapted_prompt, context)
-        
-        # Evaluate the generated content
-        metrics = self.evaluator.evaluate_content(content, content_type)
-        
-        # Store the example if it meets quality thresholds
-        if all(score >= 0.8 for score in metrics.values()):
-            self.tuner.add_example(content, content_type, metrics, context)
+        content = agent.generate_content(base_prompt, context)
         
         return content
     
@@ -92,52 +90,17 @@ class ModelInterface:
             **context
         })
         
-        # Adapt the prompt using few-shot learning
-        adapted_prompt = self.tuner.adapt_prompt(base_prompt, "text")
-        
-        return agent.generate_content(adapted_prompt, context)
+        return agent.generate_content(base_prompt, context)
     
-    def get_content_analysis(self, content: str, content_type: str, context: Dict) -> Dict:
-        """
-        Get detailed analysis of content.
+    def _get_required_fields(self, content_type: str) -> list:
+        """Get required context fields for a specific content type."""
+        common_fields = ["topic", "purpose"]
         
-        Args:
-            content (str): Content to analyze
-            content_type (str): Type of content
-            context (Dict): Analysis context
-            
-        Returns:
-            Dict: Analysis results
-        """
-        agent = self.get_agent(content_type)
-        base_prompt = self.prompts.get_analysis_template({
-            "content": content,
-            "content_type": content_type,
-            **context
-        })
+        if content_type == "text":
+            return common_fields + ["cta_type"]
+        elif content_type == "media":
+            return common_fields + ["media_type"]
+        elif content_type == "article":
+            return common_fields + ["key_points"]
         
-        # Adapt the prompt using few-shot learning
-        adapted_prompt = self.tuner.adapt_prompt(base_prompt, content_type)
-        
-        return agent.generate_content(adapted_prompt, context)
-    
-    def add_feedback(self, content: str, content_type: str, feedback: Dict) -> None:
-        """
-        Add feedback for content improvement.
-        
-        Args:
-            content (str): The content being evaluated
-            content_type (str): Type of content
-            feedback (Dict): User or system feedback
-        """
-        # Get current metrics
-        metrics = self.evaluator.evaluate_content(content, content_type)
-        
-        # Add feedback to evaluator
-        self.evaluator.add_feedback(content, content_type, feedback, metrics)
-        
-        # Update prompt templates based on feedback
-        self.tuner.update_prompt_templates(content_type, {
-            "feedback": feedback,
-            "metrics": metrics
-        }) 
+        return common_fields 

@@ -10,7 +10,7 @@ load_dotenv()
 
 # Get API key from environment variable
 api_key = os.getenv("ANTHROPIC_API_KEY")
-print(f"API Key loaded: {'Yes' if api_key else 'No - Key not found'}")
+print(f"API Key found: {'Yes' if api_key else 'No'}")
 
 # Add some error handling
 if not api_key:
@@ -26,20 +26,23 @@ try:
     
     print("Sending message to Claude...")
     message = client.messages.create(
-        model="claude-3-7-sonnet-20250219",
+        model="claude-3-sonnet-20240229",
         max_tokens=1000,
         temperature=0.5,
         system="You are a helpful assistant.",
         messages=[
-            {"role": "user", "content": "Hello, Claude!"}
+            {"role": "user", "content": "Hello, Claude! Please confirm this API key is working."}
         ]
     )
     
-    print("Response received. Content:")
-    print(message.content)
+    print("\n--- Response received. Content: ---")
+    print(message.content[0].text)
+    print("--- End of response ---\n")
+    
+    print("API key is working correctly!")
     
 except Exception as e:
-    print(f"An error occurred: {e}")
+    print(f"\nAn error occurred: {e}")
     import traceback
     traceback.print_exc()
 

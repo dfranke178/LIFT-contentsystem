@@ -1,0 +1,14 @@
+# WARNING: This file leaks the Anthropic API key - DO NOT USE!
+# Use simple_server.py instead which runs on port 8001
+
+import os
+from dotenv import load_dotenv
+from src.api.make_webhook import app
+
+# Load environment variables from .env file
+load_dotenv()
+
+if __name__ == "__main__":
+    port = int(os.getenv("PORT", 8000))
+    import uvicorn
+    uvicorn.run(app, host="0.0.0.0", port=port) 
