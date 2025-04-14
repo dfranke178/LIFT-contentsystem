@@ -1,1 +1,1 @@
-web: uvicorn src.api.minimal_webhook:app --host 0.0.0.0 --port $PORT 
+web: python -m nltk.downloader punkt stopwords && python -m spacy download en_core_web_sm && uvicorn src.api.minimal_webhook:app --host 0.0.0.0 --port $PORT 
