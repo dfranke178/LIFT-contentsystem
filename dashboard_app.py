@@ -38,18 +38,20 @@ def main():
     port = int(os.environ.get("PORT", 8501))
     logger.info(f"Starting Streamlit dashboard on port {port}")
     
-    # Run Streamlit
+    # Run Streamlit with the correct settings for Heroku
     cmd = [
         "streamlit", "run", 
         "src/dashboard.py", 
         "--server.port", str(port),
         "--server.address", "0.0.0.0",
-        "--browser.serverAddress", os.environ.get("APP_URL", "localhost"),
-        "--browser.serverPort", str(port)
+        "--server.headless", "true",
+        "--server.enableCORS", "false",
+        "--server.enableXsrfProtection", "false"
     ]
     
     try:
-        subprocess.run(cmd)
+        # Use check=True to make sure the process waits for Streamlit
+        subprocess.run(cmd, check=True)
     except Exception as e:
         logger.error(f"Error running Streamlit: {e}")
         sys.exit(1)
