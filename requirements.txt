@@ -14,3 +14,4 @@ gunicorn==21.2.0
 typing-extensions>=4.8.0
 pytest>=8.0.0
 httpx>=0.26.0  # Required for TestClient
+nltk>=3.8.1
