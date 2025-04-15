@@ -1,12 +1,19 @@
 from typing import Dict, Optional
 from .base_agent import BaseAgent
-import anthropic
 import os
 import logging
 from dotenv import load_dotenv
 
 # Load environment variables at module level
 load_dotenv()
+
+# Try to import anthropic, but don't fail if it's not available
+try:
+    import anthropic
+    ANTHROPIC_AVAILABLE = True
+except ImportError:
+    ANTHROPIC_AVAILABLE = False
+    logging.warning("Anthropic package not available. Using fallback mode.")
 
 class TextContentAgent(BaseAgent):
     """Agent specialized in generating text-only LinkedIn posts."""
@@ -17,10 +24,19 @@ class TextContentAgent(BaseAgent):
         self.api_key = os.environ.get("ANTHROPIC_API_KEY")
         if not self.api_key:
             self.logger.warning("ANTHROPIC_API_KEY not found in environment variables. API calls will fail.")
-        self.client = anthropic.Anthropic(api_key=self.api_key)
+        
+        if ANTHROPIC_AVAILABLE:
+            self.client = anthropic.Anthropic(api_key=self.api_key)
+        else:
+            self.client = None
+            self.logger.warning("Anthropic client not initialized - package missing")
         
     def generate_content(self, prompt: str, context: Optional[Dict] = None) -> str:
         formatted_prompt = self.format_prompt(prompt, context)
+        
+        if not ANTHROPIC_AVAILABLE:
+            self.logger.error("Cannot generate content: Anthropic package not available")
+            return "Error: Anthropic package not available. Please install it with 'pip install anthropic'."
         
         try:
             message = self.client.messages.create(
@@ -55,10 +71,19 @@ class MediaContentAgent(BaseAgent):
         self.api_key = os.environ.get("ANTHROPIC_API_KEY")
         if not self.api_key:
             self.logger.warning("ANTHROPIC_API_KEY not found in environment variables. API calls will fail.")
-        self.client = anthropic.Anthropic(api_key=self.api_key)
+        
+        if ANTHROPIC_AVAILABLE:
+            self.client = anthropic.Anthropic(api_key=self.api_key)
+        else:
+            self.client = None
+            self.logger.warning("Anthropic client not initialized - package missing")
         
     def generate_content(self, prompt: str, context: Optional[Dict] = None) -> str:
         formatted_prompt = self.format_prompt(prompt, context)
+        
+        if not ANTHROPIC_AVAILABLE:
+            self.logger.error("Cannot generate content: Anthropic package not available")
+            return "Error: Anthropic package not available. Please install it with 'pip install anthropic'."
         
         try:
             message = self.client.messages.create(
@@ -93,10 +118,19 @@ class ArticleContentAgent(BaseAgent):
         self.api_key = os.environ.get("ANTHROPIC_API_KEY")
         if not self.api_key:
             self.logger.warning("ANTHROPIC_API_KEY not found in environment variables. API calls will fail.")
-        self.client = anthropic.Anthropic(api_key=self.api_key)
+        
+        if ANTHROPIC_AVAILABLE:
+            self.client = anthropic.Anthropic(api_key=self.api_key)
+        else:
+            self.client = None
+            self.logger.warning("Anthropic client not initialized - package missing")
         
     def generate_content(self, prompt: str, context: Optional[Dict] = None) -> str:
         formatted_prompt = self.format_prompt(prompt, context)
+        
+        if not ANTHROPIC_AVAILABLE:
+            self.logger.error("Cannot generate content: Anthropic package not available")
+            return "Error: Anthropic package not available. Please install it with 'pip install anthropic'."
         
         try:
             message = self.client.messages.create(
