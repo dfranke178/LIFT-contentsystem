@@ -33,14 +33,19 @@ if __name__ == "__main__":
         from spacy.cli import download
         logger.info("Checking for spaCy en_core_web_sm model...")
         try:
-            # First try to load the model to see if it's already there
+            # First check if the model is installed
+            if not spacy.util.is_package("en_core_web_sm"):
+                logger.info("Downloading spaCy en_core_web_sm model...")
+                download("en_core_web_sm")
+                logger.info("spaCy model downloaded successfully")
+            else:
+                logger.info("spaCy en_core_web_sm model already exists")
+            
+            # Now load the model
             nlp = spacy.load("en_core_web_sm")
-            logger.info("spaCy en_core_web_sm model already exists")
-        except OSError:
-            # If not, download it
-            logger.info("Downloading spaCy en_core_web_sm model...")
-            download("en_core_web_sm")
-            logger.info("spaCy model downloaded successfully")
+            logger.info("spaCy model loaded successfully")
+        except Exception as e:
+            logger.error(f"Error with spaCy model loading: {str(e)}")
     except Exception as e:
         logger.error(f"Error with spaCy model: {str(e)}")
     
