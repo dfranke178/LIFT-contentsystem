@@ -9,7 +9,7 @@ print("Starting API test script...")
 load_dotenv()
 
 # Get API key from environment variable
-api_key = os.getenv("ANTHROPIC_API_KEY")
+api_key = os.environ.get("ANTHROPIC_API_KEY")
 print(f"API Key found: {'Yes' if api_key else 'No'}")
 
 # Add some error handling
