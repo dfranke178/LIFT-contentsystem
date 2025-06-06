@@ -1,4 +1,4 @@
-from typing import Dict, List, Optional
+from typing import Dict, List, Optional, Any
 import json
 from pathlib import Path
 import logging
@@ -13,6 +13,7 @@ from sklearn.preprocessing import StandardScaler
 import pandas as pd
 from linkedin_api import Linkedin
 import requests
+from collections import Counter
 
 class FeedbackLoop:
     """Implements a continuous improvement feedback loop for content generation."""
@@ -22,6 +23,7 @@ class FeedbackLoop:
         self.feedback_path = self.feedback_dir / "feedback.json"
         self.improvements_path = self.feedback_dir / "improvements.json"
         self.model_path = self.feedback_dir / "ml_model.json"
+        self.voice_feedback_path = self.feedback_dir / "voice_feedback.json"
         self._ensure_files()
         
         # Initialize LinkedIn API if credentials are provided
@@ -313,4 +315,104 @@ class FeedbackLoop:
             return feedback
         except Exception as e:
             print(f"Warning: Could not retrieve feedback history: {str(e)}")
-            return [] 
+            return []
+
+    def add_voice_feedback(self, content_id: str, feedback: Dict[str, Any]) -> None:
+        """Add voice-specific feedback for content generation improvement.
+        
+        Args:
+            content_id: Unique identifier for the content
+            feedback: Dictionary containing voice feedback metrics:
+                - voice_authenticity (1-5)
+                - tone_alignment (1-5)
+                - writing_style_match (1-5)
+                - personal_touch (1-5)
+                - professional_depth (1-5)
+                - specific_feedback (str)
+                - edits_made (list)
+        """
+        try:
+            # Load existing feedback
+            if self.voice_feedback_path.exists():
+                with open(self.voice_feedback_path, 'r') as f:
+                    voice_feedback = json.load(f)
+            else:
+                voice_feedback = {"feedback_entries": []}
+            
+            # Add timestamp
+            feedback["timestamp"] = datetime.now().isoformat()
+            
+            # Add to feedback entries
+            voice_feedback["feedback_entries"].append({
+                "content_id": content_id,
+                **feedback
+            })
+            
+            # Save updated feedback
+            with open(self.voice_feedback_path, 'w') as f:
+                json.dump(voice_feedback, f, indent=2)
+            
+            # Analyze patterns if we have enough data
+            if len(voice_feedback["feedback_entries"]) >= 5:
+                self.analyze_voice_patterns()
+                
+        except Exception as e:
+            self.logger.error(f"Error adding voice feedback: {str(e)}")
+            raise
+
+    def analyze_voice_patterns(self) -> Dict[str, Any]:
+        """Analyze patterns in voice feedback to improve content generation.
+        
+        Returns:
+            Dictionary containing voice pattern analysis
+        """
+        try:
+            if not self.voice_feedback_path.exists():
+                return {"error": "No voice feedback data available"}
+            
+            with open(self.voice_feedback_path, 'r') as f:
+                voice_feedback = json.load(f)
+            
+            # Extract metrics for analysis
+            metrics = []
+            for entry in voice_feedback["feedback_entries"]:
+                metrics.append([
+                    entry.get("voice_authenticity", 0),
+                    entry.get("tone_alignment", 0),
+                    entry.get("writing_style_match", 0),
+                    entry.get("personal_touch", 0),
+                    entry.get("professional_depth", 0)
+                ])
+            
+            if not metrics:
+                return {"error": "No metrics available for analysis"}
+            
+            # Convert to numpy array for analysis
+            metrics_array = np.array(metrics)
+            
+            # Calculate average scores
+            avg_scores = {
+                "voice_authenticity": np.mean(metrics_array[:, 0]),
+                "tone_alignment": np.mean(metrics_array[:, 1]),
+                "writing_style_match": np.mean(metrics_array[:, 2]),
+                "personal_touch": np.mean(metrics_array[:, 3]),
+                "professional_depth": np.mean(metrics_array[:, 4])
+            }
+            
+            # Identify common edits
+            edits = []
+            for entry in voice_feedback["feedback_entries"]:
+                if "edits_made" in entry:
+                    edits.extend(entry["edits_made"])
+            
+            edit_patterns = Counter(edits).most_common(5)
+            
+            return {
+                "average_scores": avg_scores,
+                "common_edits": edit_patterns,
+                "total_feedback_entries": len(voice_feedback["feedback_entries"])
+            }
+            
+        except Exception as e:
+            self.logger.error(f"Error analyzing voice patterns: {str(e)}")
+            return {"error": str(e)} 
