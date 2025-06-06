@@ -1,230 +1,160 @@
 {
-  "company_info": {
+  "company_overview": {
     "name": "LIFT Leadership Group",
-    "tagline": "exceedYour Growth Targets",
-    "mission": "Our mission at Lift Leadership is to authentically connect with people and organizations, equipping teams with proven tools and strategies that unlock their full potential and drive sustainable, high-quality outcomes.",
-    "vision": "Supporting $1M-$30M+ SMBs by building and implementing comprehensive sales systems that drive sustainable growth through people-first strategies.",
-    "founded": "After 30+ years of experience in Corporate America",
-    "overview": "Lift Leadership Group is a specialized consulting firm founded by seasoned corporate leaders with 30+ years of experience. We partner with small and medium-sized businesses ($1M-$30M+) to build comprehensive sales systems, develop leadership capabilities, and drive sustainable growth through people-first strategies.",
-    "purpose": "At Lift Leadership Group, we are driven by relationships. For as long as we can remember, building meaningful connections has been our greatest passion. We thrive on learning, growing, and finding opportunities to say 'yes' to serving others. After 30+ years of experience in Corporate America, we felt a strong pull to build something of our own—something that reflects our values and commitment to empowering others."
+    "mission": "We build and implement your first sales organization through hiring, strategic planning, and executing at the lowest level of detail.",
+    "description": "LIFT Leadership Group is a sales accelerator that specializes in partnering with early-stage founders between $1M-$10M ARR who are transitioning away from founder-led sales motion. We build comprehensive sales systems to accelerate startup growth through strategic implementation of hiring, planning, and execution at the lowest level of detail."
   },
-  "brand_voice": {
-    "tone": "Authoritative but approachable, warmly professional",
-    "personality": "Bold, authentic, results-oriented, experienced, growth-minded",
-    "style": "Direct and action-oriented, experience-backed, thoughtfully challenging",
-    "writing_directives": [
-      "Write in first person (we/our) to reflect our collaborative approach",
-      "Use active voice and strong, decisive language",
-      "Balance professional terminology with accessible explanations",
-      "Incorporate our L.I.F.T. framework terminology when relevant",
-      "Avoid corporate jargon in favor of clear, straightforward communication",
-      "Use metaphors and stories that make complex leadership concepts more relatable"
+  "target_market": {
+    "primary_audience": "Early-stage companies generating $1M-$10M in annual recurring revenue (ARR)",
+    "sweet_spot_scenarios": [
+      "Hypergrowth phase - ready to scale efficiently",
+      "Product-market reset - recalibrating strategy and GTM",
+      "Exit timeline - optimizing for acquisition within 36 months",
+      "Series funding - seeking strategic partner to accelerate expansion"
     ],
-    "avoid": "Politically divisive commentary, criticism of specific companies or leaders by name, unsubstantiated claims, generic leadership content without our unique perspective, overly promotional content that lacks genuine value"
-  },
-  "target_audience": {
-    "primary": "Small and medium-sized businesses ($1M-$30M+)",
-    "secondary": "Growth-stage companies seeking to scale sales operations",
-    "demographics": "Organizations looking to transform their leadership approach",
-    "pain_points": [
-      "Companies experiencing plateaus in revenue or team performance",
-      "Businesses wanting to implement sustainable sales systems",
-      "Lack of clarity on business strategy",
-      "Team motivation and performance challenges",
-      "Growth plateaus and revenue stagnation",
-      "Difficulty articulating clear success metrics",
-      "Implementing effective leadership practices"
-    ],
-    "goals": [
-      "Exceed company objectives",
-      "Create high-performing teams",
-      "Build sustainable business growth",
-      "Develop leadership capabilities",
-      "Increase clarity in business operations",
-      "Drive sales and increase leadership coaching effectiveness",
-      "Build scalable sales strategies and processes",
-      "Experience the difference of BOLD, people-first leadership"
+    "common_problems": [
+      "Growth Ceiling: Founders trapped selling vs. scaling",
+      "Revenue Plateau: Lack of sales operations hindering growth",
+      "Talent Gaps: Inconsistent sales performance and/or hiring"
     ]
   },
-  "key_messages": [
-    "Bold, people-first leadership becomes your competitive advantage",
-    "Exceeding growth targets through systems and people",
-    "The L.I.F.T. approach to transformation",
-    "Authentic connections drive business results",
-    "Transforming managers into force-multiplier leaders",
-    "Building something meaningful together",
-    "Hope is a powerful driver for business success when paired with clarity",
-    "Clear leadership and vision create paths to exceeding company goals",
-    "Leadership development directly impacts business results",
-    "Strategic clarity enables teams to perform at their highest level",
-    "The right systems and structures empower sustainable growth"
+  "track_record": [
+    "Scaled national US sales organization to $50M+ in revenue; driving 42% ARR growth from 2022-24 at DoorDash",
+    "Designed scalable frameworks that enabled early-stage sales teams to achieve profitable unit economics within 12 months",
+    "Built hiring playbooks and performance systems used to grow multiple sales teams from 0-50+ reps",
+    "Proven track record of architecting sales systems that enhance CRM management, healthy pipeline visibility, and drive higher productivity",
+    "Collectively hired 300+ sales professionals and promoted/developed more than 50 sales managers",
+    "Certified Executive Coach with a track record of leadership development"
   ],
-  "content_strategy": {
-    "themes": [
-      "Leadership Development Insights",
-      "Sales System Optimization",
-      "Team Transformation Stories",
-      "Metric-Driven Leadership",
-      "Scaling Challenges & Solutions",
-      "People-First Leadership Philosophy",
-      "Implementation Strategies"
+  "service_portfolio": {
+    "focus_areas": [
+      {
+        "name": "Hiring",
+        "description": "Strategic guidance on interview best practices, sourcing strategies, and candidate evaluation process",
+        "impact": "Boost sales enablement with quota/goaling frameworks, consistent operating rhythms and structured onboarding program for new hires"
+      },
+      {
+        "name": "Revenue Operations",
+        "description": "Development of rep compensation plans, goal-setting frameworks, and incentive structures to drive high performance",
+        "impact": "Accelerate velocity by implementing sales processes for more accurate forecasting and runway planning"
+      },
+      {
+        "name": "GTM Strategy",
+        "description": "Support with ICP identification, territory planning, architecting of role types, and sales cycle optimization",
+        "impact": "Support your product-market fit with a data-driven GTM strategy and a RevOps alignment"
+      },
+      {
+        "name": "Technology",
+        "description": "Implementation of lead generation systems, CRM best practices, and sales pipeline tools"
+      },
+      {
+        "name": "People Management",
+        "description": "Creation of new hire onboarding plans, managerial systems for rep development, and performance management frameworks"
+      }
     ],
-    "formats": {
-      "preferred": ["text with image", "short video", "case studies", "leadership insights", "mini case studies", "framework explanations", "thought leadership", "quick tips", "reflection questions", "celebration posts"],
-      "content_length": "Concise and scannable for busy professionals",
-      "posting_frequency": "3-4 times per week"
-    },
-    "structure": {
-      "elements": [
-        "Tell stories that are compelling with specific results",
-        "Start with a compelling hook that addresses a common leadership challenge",
-        "Include specific, actionable advice rather than generic platitudes",
-        "End with a thought-provoking question or clear call-to-action",
-        "Keep posts concise and scannable for busy professionals",
-        "Use numbered lists, bullet points, and clear headers for improved readability",
-        "When appropriate, include relevant personal anecdotes that reinforce the message"
-      ]
-    },
-    "engagement": {
-      "hashtags": ["#LeadershipDevelopment", "#BusinessStrategy", "#TeamPerformance", "#GrowthMindset", "#LIFT", "#SalesLeadership", "#PeopleFirstLeadership"],
-      "cta_types": ["Ask a thought-provoking question", "Invite comments", "Request sharing", "Direct to website"]
-    }
-  },
-  "visual_identity": {
-    "colors": {
-      "primary": "Blue (#1E3A8A)",
-      "secondary": "Orange (#F97316)",
-      "accent": "Light gray (#F3F4F6)"
-    },
-    "imagery": "Professional, clean, bright images showing leadership, team collaboration, and success",
-    "logo_usage": "Include branded logo in corner of image posts when appropriate"
-  },
-  "values": [
-    "Authentic Relationships - We believe genuine connections drive business success",
-    "Continuous Growth - We embrace learning and adaptation as essential elements of progress",
-    "Service Mindset - We look for opportunities to say 'yes' to serving others",
-    "Results-Driven - We focus on measurable outcomes and sustainable improvements",
-    "People-First Leadership - We prioritize human potential as the foundation of organizational success",
-    "Clarity - We believe in making the complex simple",
-    "Integrity - We do what we say we'll do",
-    "Excellence - We strive for the highest quality in everything we do"
-  ],
-  "success_metrics": {
-    "engagement": "Average 200+ likes per post",
-    "growth": "10% follower increase monthly",
-    "conversion": "Drive website visits and consultation requests"
-  },
-  "competitors": [
-    "Growth leadership consultancies",
-    "Business strategy firms",
-    "Executive coaching services",
-    "Leadership training programs",
-    "Sales consulting organizations"
-  ],
-  "unique_selling_points": [
-    "Focus on clarifying business strategy to exceed goals",
-    "Proven leadership development methodology",
-    "Customized approach for each client's unique situation",
-    "Combination of strategic consulting and hands-on implementation",
-    "People-first approach combined with proven systems that have succeeded across multiple industries",
-    "Build sustainable frameworks that continue delivering value long after our engagement ends",
-    "Experience the power of authentic relationships combined with proven systems"
-  ],
-  "framework": {
-    "name": "L.I.F.T.",
-    "components": [
+    "partnership_tiers": [
       {
-        "name": "Listen & Learn",
-        "description": "Listen: Conduct deep-dive assessments and one-on-one discussions to understand your team's unique strengths and challenges. Learn: Analyze your current sales processes and metrics to identify specific opportunities for breakthrough performance."
+        "tier": "Foundational Partnership",
+        "label": "Expert Frameworks + Strategic Guidance",
+        "ideal_for": "Founders who need expert frameworks but plan to implement independently with strategic guidance",
+        "investment": "$4,750/month (12-month) | $5,500/month (6-month)",
+        "deliverables": [
+          "Comprehensive interview guides and frameworks",
+          "Structured goaling and incentive methodology",
+          "Guide for KPIs and rep compensation"
+        ],
+        "strategic_support": [
+          "Weekly 30-minute Founder sessions",
+          "Monthly strategy reviews"
+        ]
       },
       {
-        "name": "Initiate & Inspire",
-        "description": "Initiate: Establish baseline metrics and create customized development plans that align with your business goals. Inspire: Energize your team with proven sales strategies and clear paths to success."
+        "tier": "Implementation Partnership",
+        "label": "Hands-On Guidance + Active Implementation Support",
+        "ideal_for": "Founders who want hands-on guidance and active implementation support throughout the process",
+        "investment": "$7,700/month (12-month) | $8,900/month (6-month)",
+        "deliverables": [
+          "All Tier 1 documents",
+          "Market segmentation and territory planning",
+          "CRM analysis and optimization",
+          "New hire 30-day onboarding plan"
+        ],
+        "strategic_support": [
+          "Weekly 1-hour Founder sessions",
+          "Monthly strategy sessions"
+        ]
       },
       {
-        "name": "Focus & Framework",
-        "description": "Focus: Implement a results-driven sales process that defines and tracks key performance activities. Framework: Build accountability systems and success routines that transform best practices into daily habits."
-      },
-      {
-        "name": "Transform the Team",
-        "description": "Transform: Refine approaches based on measured progress to ensure lasting improvement. Team: Develop leadership capabilities and team collaboration that sustain long-term success."
+        "tier": "Transformative Partnership",
+        "label": "Comprehensive Solution + Expert Execution",
+        "ideal_for": "Founders who recognize the critical importance of expert execution and knowledge transfer in building a world-class sales organization",
+        "investment": "Starting at $11,500/month with 12-month commitment",
+        "deliverables": [
+          "All Tier 1 & 2 documents",
+          "Customized onboarding systems",
+          "Coaching & developing frameworks",
+          "Performance management guides for tracking early-stage struggling reps",
+          "Customized web portal for tracking progress"
+        ],
+        "strategic_support": [
+          "Weekly 1-hour Founder sessions",
+          "Monthly strategy sessions",
+          "End-to-end hiring management",
+          "Weekly sales coaching with reps",
+          "Bi-weekly shadowing of team meetings"
+        ],
+        "custom_investment_structure": "Pricing is customized based on your specific needs, team size, and implementation timeline"
       }
     ]
   },
-  "service_offerings": [
-    {
-      "name": "Fractional Sales Leadership",
-      "description": "On-demand scaling expertise focused on building high-velocity infrastructure, optimizing go-to-market teams, and implementing agile sales workflows that drive sustainable ARR growth.",
-      "components": [
-        "End-to-end GTM strategy and operations",
-        "Account-based segmentation",
-        "Full-stack CRM architecture",
-        "Data-driven operating cadences",
-        "Team velocity and conversion metrics optimization"
-      ]
-    },
-    {
-      "name": "Sales Acceleration Programs",
-      "description": "High-impact sprint engagements that unlock growth potential through performance optimization, personalized enablement, and metrics-driven process iteration for your sales team.",
-      "components": [
-        "1:1 performance coaching",
-        "Strategic pipeline engagement",
-        "Leadership upskilling",
-        "Revenue-generating behaviors development",
-        "Predictable growth scaling"
-      ]
-    },
-    {
-      "name": "Leadership Transformation",
-      "description": "16-week engagement designed to transform managers into force-multiplier leaders who can unlock team potential, drive metric-based coaching, and build a high-performance ecosystem.",
-      "components": [
-        "Immersive learning sprints",
-        "Real-world implementation",
-        "Tailored mentorship",
-        "Engagement KPI acceleration",
-        "Team productivity metrics improvement",
-        "Sustainable organizational momentum"
-      ]
-    }
+  "client_value": [
+    "Our tools and resources across these focus areas",
+    "Live time with industry experts that bring decades of experience",
+    "A dedicated strategic partner focused on helping you grow and scale your sales efforts",
+    "Access to our networks without the cost of referral fees",
+    "Increased sales performance, and new hire productivity",
+    "Accurate forecasting, scalable sales processes, and a reliable system with a 3-5 year run rate"
   ],
-  "expertise": [
-    {
-      "area": "Leadership Development",
-      "details": [
-        "20+ years leading teams with oversight of 30+ directors nationwide",
-        "Personally promoted and developed 7 directors",
-        "Certified Executive Coach with proven leadership development track record",
-        "Hired 250+ sales professionals and promoted/developed 50+ sales managers"
-      ]
-    },
-    {
-      "area": "Revenue Scaling",
-      "details": [
-        "Scaled revenue from under $500K to regions exceeding $250M",
-        "Scaled national US sales organization to $50M+",
-        "Consistently achieved 150-175% of targets",
-        "Drove 42% TAM growth in final two years at DoorDash"
-      ]
-    },
-    {
-      "area": "Organizational Development",
-      "details": [
-        "10+ years designing, implementing, and developing leadership teams",
-        "Built elite sales organizations across multiple industries",
-        "Led multi-level sales organizations with oversight of 120+ professionals",
-        "Architected transformative sales programs including hiring playbooks, performance review frameworks, and talent mapping methodologies"
-      ]
-    },
-    {
-      "area": "Specialized Expertise",
-      "details": [
-        "Customer success optimization",
-        "Process improvement",
-        "Sales efficiency",
-        "Team-building",
-        "Metric-based coaching",
-        "High-performance culture development"
-      ]
-    }
-  ]
+  "content_themes": [
+    "Scaling Beyond Founder-Led Sales",
+    "Early-Stage Sales Operations",
+    "Hypergrowth Hiring & Talent",
+    "GTM Strategy & Execution",
+    "Leadership Development for Founders"
+  ],
+  "voice_and_tone": {
+    "results_driven_expertise": "Leverage specific achievements (DoorDash 42% ARR growth, 300+ hires)",
+    "founder_centric_language": "Speak directly to founder pain points and transition challenges",
+    "strategic_yet_tactical": "Balance high-level strategy with granular execution details",
+    "proven_and_credible": "Reference real outcomes and measurable results",
+    "partnership_oriented": "Position as strategic partner, not just consultant"
+  },
+  "differentiators": [
+    "Specialized Focus: Exclusively early-stage companies ($1M-$10M ARR) transitioning from founder-led sales",
+    "Proven Scale: Track record with high-growth companies like DoorDash",
+    "Comprehensive Approach: Five integrated focus areas vs. point solutions",
+    "Flexible Partnership Models: Three tiers accommodate different readiness levels and investment capacity",
+    "Fractional CRO Support: Strategic guidance with hands-on implementation",
+    "Long-term Relationship: 6-12 month partnerships vs. project-based consulting"
+  ],
+  "content_strategy_objectives": [
+    "Establish Authority in early-stage sales transformation and founder transition",
+    "Generate Qualified Leads from companies in hypergrowth, product-market reset, exit timeline, or series funding phases",
+    "Demonstrate Expertise through specific case studies and quantifiable results",
+    "Build Trust by addressing common founder pain points with proven solutions",
+    "Differentiate from generic sales consultants through specialized early-stage focus and proven track record"
+  ],
+  "success_metrics": {
+    "primary_kpi": "Inbound inquiries from $1M-$10M ARR companies",
+    "content_engagement": "High engagement on founder transition and scaling content",
+    "brand_recognition": "Known as the go-to partner for early-stage sales transformation",
+    "lead_quality": "Prospects in hypergrowth, PMF reset, exit timeline, or funding phases",
+    "conversion_focus": "Discovery calls leading to partnership discussions"
+  },
+  "messaging_framework": {
+    "problem": "Founders trapped selling vs. scaling, revenue plateaus, inconsistent sales performance",
+    "solution": "Comprehensive sales systems that accelerate growth through strategic hiring, planning, and execution",
+    "proof": "Proven track record scaling organizations like DoorDash with measurable results",
+    "partnership": "Flexible engagement models with fractional CRO support for sustainable growth"
+  }
 } 
