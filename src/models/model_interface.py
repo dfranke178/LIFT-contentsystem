@@ -74,6 +74,7 @@ class ModelInterface:
             if hasattr(agent, 'temperature'):
                 agent.temperature = 0.9
             base_prompt = self.prompts.get_text_post_template(context)
+            print("=== PROMPT SENT TO MODEL ===\n", base_prompt)
         elif content_type == "media":
             base_prompt = self.prompts.get_media_post_template(context)
         else:  # article
