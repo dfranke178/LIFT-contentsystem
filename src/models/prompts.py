@@ -5,7 +5,7 @@ class PromptTemplates:
     
     @staticmethod
     def get_text_post_template(context: Optional[Dict] = None) -> str:
-        """Template for generating text-only LinkedIn posts using authentic examples and brand brief."""
+        """Template for generating text-only LinkedIn posts using authentic examples and brand brief, with explicit anti-generic instructions."""
         safe_context = context or {}
         defaults = {
             "industry": "Leadership Development",
@@ -26,21 +26,23 @@ class PromptTemplates:
         # Prepare authentic examples (few-shot)
         example_section = ""
         if safe_context["authentic_examples"]:
-            example_section = "Here are two examples of my authentic LinkedIn posts:\n---\n"
-            for ex in safe_context["authentic_examples"][:2]:
-                example_section += ex + "\n---\n"
+            example_section = "Here are several real LinkedIn posts from my account. Carefully study their style, structure, and voice.\n"
+            for i, ex in enumerate(safe_context["authentic_examples"][:4]):
+                example_section += f"Example {i+1}:\n{ex}\n---\n"
 
         base_template = f"""
         {example_section}
-        Using the same style, tone, and structure as the examples above, write a new LinkedIn post about: {{topic}}
-        - Use a {{tone}} tone
-        - Speak directly to {{target_audience}}
+        Now, write a new LinkedIn post in the exact same style, length, and formatting as the examples above, about: {{topic}}
+        - Do NOT use generic LinkedIn language or platitudes.
+        - Do NOT use vague or overly formal phrases.
+        - Use the same sentence length, formatting, and voice as the examples above.
+        - Use specific anecdotes, humor, or directness as in the examples.
+        - Use a {{tone}} tone and speak directly to {{target_audience}}.
         - Reference our brand's mission: {{brand_mission}}
         - Key message: {{key_message}}
         - Incorporate our brand voice: {{brand_voice}}
-        - Use formatting and structure similar to the examples
-        - Make it authentic, specific, and aligned with our brand
         - End with a relevant call-to-action: {{cta_type}}
+        - Make it authentic, specific, and aligned with our brand.
         """
         try:
             return base_template.format(**safe_context)

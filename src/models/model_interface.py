@@ -41,18 +41,24 @@ class ModelInterface:
             self.logger.error(error_message)
             return f"Error: {error_message}"
 
-        # --- ENHANCEMENT: Add authentic post examples and brand brief fields ---
+        # --- ENHANCEMENT: Add relevant authentic post examples and brand brief fields ---
         if content_type == "text":
-            # Load authentic post examples
             try:
                 import json
+                import re
                 with open("data_store/authentic_posts.json", "r", encoding="utf-8") as f:
                     authentic_data = json.load(f)
-                authentic_examples = [p["content"] for p in authentic_data.get("authentic_posts", []) if p.get("content")][:2]
+                # Select up to 4 most relevant examples by topic keyword match
+                topic = context.get("topic", "").lower()
+                def score(post):
+                    content = post.get("content", "").lower()
+                    meta_topic = post.get("metadata", {}).get("topic", "").lower()
+                    return int(topic in content or topic in meta_topic)
+                sorted_posts = sorted(authentic_data.get("authentic_posts", []), key=score, reverse=True)
+                authentic_examples = [p["content"] for p in sorted_posts if p.get("content")] [:4]
             except Exception as e:
                 authentic_examples = []
                 self.logger.error(f"Could not load authentic post examples: {e}")
-            # Load brand brief fields
             from src.utils.brand_knowledge import brand_knowledge
             brand_brief = brand_knowledge.get_full_brief() if hasattr(brand_knowledge, 'get_full_brief') else {}
             context = context.copy()
@@ -60,6 +66,9 @@ class ModelInterface:
             context["brand_mission"] = brand_brief.get("company_overview", {}).get("mission", "")
             context["brand_voice"] = brand_brief.get("voice_and_tone", {})
             context["key_message"] = context.get("key_message", "")
+            # Set higher temperature for more creative outputs
+            if hasattr(agent, 'temperature'):
+                agent.temperature = 0.9
             base_prompt = self.prompts.get_text_post_template(context)
         elif content_type == "media":
             base_prompt = self.prompts.get_media_post_template(context)
