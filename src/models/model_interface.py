@@ -33,20 +33,33 @@ class ModelInterface:
         Returns:
             str: Generated content
         """
-        # Validate content type
         agent = self.get_agent(content_type)
-        
-        # Validate required context fields
         required_fields = self._get_required_fields(content_type)
         missing_fields = [field for field in required_fields if field not in context]
-        
         if missing_fields:
             error_message = f"Missing required context fields: {', '.join(missing_fields)}"
             self.logger.error(error_message)
             return f"Error: {error_message}"
-        
-        # Get the appropriate prompt template
+
+        # --- ENHANCEMENT: Add authentic post examples and brand brief fields ---
         if content_type == "text":
+            # Load authentic post examples
+            try:
+                import json
+                with open("data_store/authentic_posts.json", "r", encoding="utf-8") as f:
+                    authentic_data = json.load(f)
+                authentic_examples = [p["content"] for p in authentic_data.get("authentic_posts", []) if p.get("content")][:2]
+            except Exception as e:
+                authentic_examples = []
+                self.logger.error(f"Could not load authentic post examples: {e}")
+            # Load brand brief fields
+            from src.utils.brand_knowledge import brand_knowledge
+            brand_brief = brand_knowledge.get_full_brief() if hasattr(brand_knowledge, 'get_full_brief') else {}
+            context = context.copy()
+            context["authentic_examples"] = authentic_examples
+            context["brand_mission"] = brand_brief.get("company_overview", {}).get("mission", "")
+            context["brand_voice"] = brand_brief.get("voice_and_tone", {})
+            context["key_message"] = context.get("key_message", "")
             base_prompt = self.prompts.get_text_post_template(context)
         elif content_type == "media":
             base_prompt = self.prompts.get_media_post_template(context)

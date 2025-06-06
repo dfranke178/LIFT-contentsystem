@@ -5,8 +5,7 @@ class PromptTemplates:
     
     @staticmethod
     def get_text_post_template(context: Optional[Dict] = None) -> str:
-        """Template for generating text-only LinkedIn posts."""
-        # Provide default values for missing context
+        """Template for generating text-only LinkedIn posts using authentic examples and brand brief."""
         safe_context = context or {}
         defaults = {
             "industry": "Leadership Development",
@@ -14,34 +13,35 @@ class PromptTemplates:
             "purpose": "Thought leadership",
             "tone": "Professional",
             "topic": "Leadership",
-            "cta_type": "Ask a question"
+            "cta_type": "Ask a question",
+            "authentic_examples": [],
+            "brand_mission": "",
+            "brand_voice": "",
+            "key_message": ""
         }
-        
-        # Merge defaults with provided context
         for key, value in defaults.items():
             if key not in safe_context or not safe_context[key]:
                 safe_context[key] = value
-        
-        base_template = """
-        You are an expert LinkedIn content creator. Create a professional LinkedIn post with the following specifications:
-        
-        Industry: {industry}
-        Target Audience: {target_audience}
-        Post Purpose: {purpose}
-        Desired Tone: {tone}
-        Key Topic: {topic}
-        Call-to-Action: {cta_type}
-        
-        The post should be:
-        - Professional and engaging
-        - Clear and concise
-        - Value-driven
-        - Include relevant hashtags
-        - Optimized for LinkedIn's algorithm
-        
-        Generate a post that follows these guidelines.
+
+        # Prepare authentic examples (few-shot)
+        example_section = ""
+        if safe_context["authentic_examples"]:
+            example_section = "Here are two examples of my authentic LinkedIn posts:\n---\n"
+            for ex in safe_context["authentic_examples"][:2]:
+                example_section += ex + "\n---\n"
+
+        base_template = f"""
+        {example_section}
+        Using the same style, tone, and structure as the examples above, write a new LinkedIn post about: {{topic}}
+        - Use a {{tone}} tone
+        - Speak directly to {{target_audience}}
+        - Reference our brand's mission: {{brand_mission}}
+        - Key message: {{key_message}}
+        - Incorporate our brand voice: {{brand_voice}}
+        - Use formatting and structure similar to the examples
+        - Make it authentic, specific, and aligned with our brand
+        - End with a relevant call-to-action: {{cta_type}}
         """
-        
         try:
             return base_template.format(**safe_context)
         except KeyError as e:
