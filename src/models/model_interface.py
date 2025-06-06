@@ -44,18 +44,22 @@ class ModelInterface:
         # --- ENHANCEMENT: Add relevant authentic post examples and brand brief fields ---
         if content_type == "text":
             try:
-                import json
-                import re
-                with open("data_store/authentic_posts.json", "r", encoding="utf-8") as f:
-                    authentic_data = json.load(f)
-                # Select up to 4 most relevant examples by topic keyword match
-                topic = context.get("topic", "").lower()
-                def score(post):
-                    content = post.get("content", "").lower()
-                    meta_topic = post.get("metadata", {}).get("topic", "").lower()
-                    return int(topic in content or topic in meta_topic)
-                sorted_posts = sorted(authentic_data.get("authentic_posts", []), key=score, reverse=True)
-                authentic_examples = [p["content"] for p in sorted_posts if p.get("content")] [:4]
+                from src.utils.retrieval import retrieve_relevant_posts
+                try:
+                    # Use semantic retrieval for most relevant examples
+                    authentic_examples = retrieve_relevant_posts(context.get("topic", ""), top_k=2)
+                except ImportError:
+                    # Fallback to keyword matching if sentence-transformers not available
+                    import json
+                    with open("data_store/authentic_posts.json", "r", encoding="utf-8") as f:
+                        authentic_data = json.load(f)
+                    topic = context.get("topic", "").lower()
+                    def score(post):
+                        content = post.get("content", "").lower()
+                        meta_topic = post.get("metadata", {}).get("topic", "").lower()
+                        return int(topic in content or topic in meta_topic)
+                    sorted_posts = sorted(authentic_data.get("authentic_posts", []), key=score, reverse=True)
+                    authentic_examples = [p["content"] for p in sorted_posts if p.get("content")] [:2]
             except Exception as e:
                 authentic_examples = []
                 self.logger.error(f"Could not load authentic post examples: {e}")
