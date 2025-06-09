@@ -1,2 +1,4 @@
 build:
-  stack: heroku-24 
+  stack: heroku-24
+run:
+  web: gunicorn app:app 
