@@ -3,7 +3,6 @@
 torch==2.7.1+cpu
 python-dateutil>=2.8.2
 linkedin-api>=2.0.0
-scikit-learn>=1.4.0
 pandas>=2.2.0
 schedule>=1.2.0
 numpy>=1.26.0
@@ -16,18 +15,19 @@ python-dotenv==1.0.0
 gunicorn==21.2.0
 typing-extensions>=4.8.0
 nltk>=3.8.1
-spacy>=3.6.0
 textstat>=0.7.3
 anthropic==0.49.0
 jiter==0.9.0
 distro==1.9.0
-sentence-transformers>=2.2.2
 
-# Optional dependencies - uncomment if needed
-# plotly>=5.18.0
-# plotly-express>=0.4.1
-# streamlit>=1.31.0
+# Optional ML dependencies - uncomment if needed
+# scikit-learn>=1.4.0
+# spacy>=3.6.0
+# sentence-transformers>=2.2.2
 
 # Development dependencies - move to requirements-dev.txt
 # pytest>=8.0.0
-# httpx>=0.26.0 
+# httpx>=0.26.0
+# plotly>=5.18.0
+# plotly-express>=0.4.1
+# streamlit>=1.31.0 
