@@ -44,3 +44,7 @@ analysis/
 
 # OS
 Thumbs.db
+
+id_rsa
+*.pem
+.ssh/
