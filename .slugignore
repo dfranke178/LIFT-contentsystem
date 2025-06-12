@@ -19,4 +19,8 @@ tests/
 .venv/
 .DS_Store
 *.md
-*.log 
+*.log
+heroku/
+heroku-linux-x64.tar.xz
+.pytest_cache/
+data/ 
